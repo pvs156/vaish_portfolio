@@ -16,6 +16,8 @@ npm run preview
 - **Role links:** share `?lens=product`, `?lens=program` or `?lens=project` to open with that role highlighted.
 - **Contact:** LinkedIn only (`LINKEDIN` constant in `index.astro`).
 
-## Deploying
-- **Vercel or Netlify:** import the repo; build command `npm run build`, output `dist`.
-- **GitHub Pages:** set `site` and `base` in `astro.config.mjs` to match the Pages URL, then deploy `dist/`.
+## Live site
+https://pvs156.github.io/vaish_portfolio/
+
+Every push to `main` rebuilds and deploys through `.github/workflows/deploy.yml` (GitHub Actions to GitHub Pages).
+`site` and `base` in `astro.config.mjs` match that URL; change them if the site moves (for example to a custom domain, set `base` to `/`).

@@ -1,7 +1,9 @@
 import { defineConfig } from 'astro/config';
 
-// For GitHub Pages project sites, set `site` and `base` to match the repo URL.
+// Served as a GitHub Pages project site at https://pvs156.github.io/vaish_portfolio/
 export default defineConfig({
+  site: 'https://pvs156.github.io',
+  base: '/vaish_portfolio',
   output: 'static',
   compressHTML: true,
 });
