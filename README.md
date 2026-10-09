@@ -1,7 +1,6 @@
 # Vaishnavi Kulkarni: portfolio
 
-Single-page portfolio built with [Astro](https://astro.build) (static output, ~no client JS beyond the board).
-The work is a split-flap departures board; the Product / Program / Project switcher re-sorts it.
+Single-page portfolio built with [Astro](https://astro.build). Static output; the only client JavaScript is the role switcher.
 
 ```bash
 npm install
@@ -10,8 +9,13 @@ npm run build    # static site in dist/
 npm run preview
 ```
 
-- Content: `src/data/work.ts` (board rows, boarding-pass details, toolkit). Board strings are uppercase and length-limited because each character is one tile.
-- Page and script: `src/pages/index.astro`. Styles: `src/styles/global.css`.
-- Role links: append `?lens=product`, `?lens=program` or `?lens=project` to share a role-specific view.
-- Contact is LinkedIn only (`LINKEDIN` constant in `index.astro`). Add email or a resume link there if wanted.
-- GitHub Pages: set `site` and `base` in `astro.config.mjs` to match the repo URL, then deploy `dist/`.
+## Editing
+- **Content:** `src/data/work.ts` holds every project (headline, result, roles, story details), the role intros and the toolkit.
+- **Page:** `src/pages/index.astro`. **Styles:** `src/styles/global.css`. **Diagrams:** `src/components/Diagram.astro`.
+- **Photo:** `src/assets/profile-photo.png` (Astro converts it to WebP at build).
+- **Role links:** share `?lens=product`, `?lens=program` or `?lens=project` to open with that role highlighted.
+- **Contact:** LinkedIn only (`LINKEDIN` constant in `index.astro`).
+
+## Deploying
+- **Vercel or Netlify:** import the repo; build command `npm run build`, output `dist`.
+- **GitHub Pages:** set `site` and `base` in `astro.config.mjs` to match the Pages URL, then deploy `dist/`.

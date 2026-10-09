@@ -1,0 +1,23 @@
+---
+// Expandable case details for one project. Native <details>, so it works without JavaScript.
+import type { Project } from '../data/work';
+interface Props { p: Project }
+const { p } = Astro.props;
+---
+<details class="story">
+  <summary>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+    <span class="closed-label">Read the story</span><span class="open-label">Close</span>
+    <span class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">: {p.headline}</span>
+  </summary>
+  <div class="body">
+    <p class="what">{p.what}</p>
+    <ul>{p.did.map((d) => <li>{d}</li>)}</ul>
+    <p class="stack">{p.stack.join(' · ')}</p>
+    <p class={`note sw-${p.color}`}>
+      <span data-note="product">{p.notes.product}</span>
+      <span data-note="program">{p.notes.program}</span>
+      <span data-note="project">{p.notes.project}</span>
+    </p>
+  </div>
+</details>

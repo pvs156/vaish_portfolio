@@ -1,36 +1,44 @@
-# Design system: Departures
+# Design system: Sticker board
 
-Airport wayfinding signage. One page; the work is a split-flap departures board.
+Warm and personal, in the spirit of the references the user picked (Kane Sherwell, Thaisa Fernandes): thick ink outlines, offset shadows, pastel panels, her photo front and centre, outcome-titled projects with original diagrams.
 
 ## Color
 | Token | Hex | Use |
 |---|---|---|
-| `--signage` | #FFC20E | Page field, sign text on black |
-| `--ink` | #0E0E0C | Type on yellow, sign buttons |
-| `--board` | #121311 | Board and recommendation bands |
-| `--tile` | #2A2B27 | Flap face (hinge `--tile-edge` #070706) |
-| `--flap` | #F3EFE3 | Primary characters on the board |
-| `--flap-dim` | #A29D8C | Year, gate and column labels on the board |
-| `--paper` | #F4EEDC | Boarding pass details and About band |
+| `--paper` | #FBF5EA | Page ground (fades to #EFE8F3 lilac at the bottom) |
+| `--ink` | #2A2420 | Text, outlines, shadows, quote band |
+| `--soft` | #5B524B | Secondary text (AA on paper and white) |
+| `--card` | #FFFDF8 | Inner boxes, diagram boxes |
+| `--lilac` | #DCD0F4 | Program, education-adjacent accents |
+| `--butter` | #F6E19C | Project, launches |
+| `--mint` | #C8E9D6 | Product, AI agent |
+| `--peach` | #F7CAB4 | Custom machine, awards |
+| `--sky` | #C3DEF0 | Pipelines, CTA |
+| `--rose` | #F1BCCB | Recognition |
 
-Strategy: committed. Yellow carries the page, black carries the board.
+Swatches are applied with `.sw-<name>` classes that set `--c`.
 
 ## Type
-- Display and board: Barlow Condensed 500/600/700, uppercase, tracked +0.04 to +0.14em on labels. Display max 6rem.
-- Body: Public Sans Variable, 17px, 1.55 line height, measure about 38rem.
-- Both self-hosted through `@fontsource` packages.
+- Bricolage Grotesque Variable for everything (optical size axis: 14 for body, 96 for display). Display is uppercase, 800 weight.
+- Caveat Variable only for handwritten asides ("hi, that's me!", the quote attribution, one note in About).
+- Both self-hosted via `@fontsource-variable`.
+
+## Shape and depth
+- Outline: 2.5px ink (`--line`). Shadow: `5px 5px 0` ink (`--sh`). Hover lifts to 7–9px; pressed sinks to 2px.
+- Radii: 12px controls, 18–22px cards, 999px tags and chips.
 
 ## Components
-- **Sign**: black rounded (4px) button, yellow condensed caps, arrow drawn as inline SVG (stroke 3).
-- **Gate**: large sign used as the role switcher; `aria-pressed` true = yellow with ink inset border.
-- **Board row**: native `<details>`; summary holds four tile fields (year 7, where 10, project 24, result 24 cells). Tiles flip through random characters before landing (`flipTile` in `src/pages/index.astro`).
-- **Boarding pass**: paper panel, dashed perforation between stub and body; shows the lens-specific note for the active role.
-- **Toolkit row**: dt/dd list with 4px ink rules; the active lens row inverts.
+- **Tag**: pill with icon, uppercase 13.5px, pastel fill (hero identity tags).
+- **Role button**: outlined, white; pressed takes the role's pastel and sinks.
+- **Stat sticker**: white outlined card, slight rotation, big number + labelled dot.
+- **Project card**: pastel diagram panel over a white body; role chips, outcome headline, meta, "Read the story".
+- **Story**: native `<details>`; shows context, what she did, stack, and the active role's note.
+- **Board**: pastel outlined panel holding small outlined items (About, Toolkit).
+- **Diagram**: `src/components/Diagram.astro`, server-rendered SVG themed by `--dg-ink/--dg-box/--dg-hi`.
 
-## Motion
-One authored moment: the flap cascade on load and on role change. Reduced motion shows final characters immediately. Hover nudges signs 3px.
+## Role highlight
+`?lens=product|program|project` or the buttons set `html[data-lens]`. Matching work moves first and keeps its shadow; other work stays fully readable but flat (dashed outline, grayscale diagram). Clicking the active role again resets to all.
 
 ## Rules
-- Every board string is uppercase and length-limited (see `src/data/work.ts`).
-- Claims only from resumes or LinkedIn; see `vaishnavi-kulkarni/context.md` in the source workspace.
-- Shareable role links: `?lens=product|program|project`.
+- Every claim traces to her resumes or LinkedIn. Unresolved facts are never asserted (see `src/data/work.ts` header).
+- Contact is LinkedIn only.
