@@ -1,0 +1,268 @@
+---
+import { Image } from 'astro:assets';
+import photo from '../assets/profile-photo.png';
+import { rows, lensOrder, lensIntro, toolkit } from '../data/work';
+import '../styles/global.css';
+
+const LINKEDIN = 'https://www.linkedin.com/in/vaishnavikulk/';
+const title = 'Vaishnavi Kulkarni | Technical Program & Product Manager';
+const description =
+  'Technical program and product manager, former software engineer. Shipped an AI agent that cut query resolution time by about 80%, coordinated seven launches across the US and France, and modernized data pipelines on AWS. Purdue M.S. Engineering Management, May 2027.';
+
+const pad = (s: string, n: number) => s.padEnd(n, ' ').slice(0, n).split('');
+const quoteA =
+  'She quickly mastered complex concepts, particularly in rule-based systems, and showed a natural aptitude for translating technical challenges into practical solutions.';
+const quoteB =
+  'Vaishnavi’s attention to detail and ability to think critically stood out in every task she tackled under my guidance.';
+---
+
+<!doctype html>
+<html lang="en" data-lens="all">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#ffc20e" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23ffc20e'/%3E%3Cpath d='M6 7h5l5 14 5-14h5L18.5 26h-5z' fill='%230e0e0c'/%3E%3C/svg%3E"
+    />
+    <script is:inline>
+      // Apply a shared role link (?lens=program) before first paint.
+      try {
+        const l = new URLSearchParams(location.search).get('lens');
+        if (['product', 'program', 'project'].includes(l)) document.documentElement.dataset.lens = l;
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#work">Skip to work</a>
+
+    <header class="wrap bar">
+      <a class="bar__id" href="#top" aria-label="Vaishnavi Kulkarni, top of page">V. Kulkarni</a>
+      <nav aria-label="Sections">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#toolkit">Toolkit</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="sign" href={LINKEDIN} rel="noopener">
+        LinkedIn
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" aria-hidden="true"><path d="M4 12h15M13 5l7 7-7 7" /></svg>
+      </a>
+    </header>
+
+    <main id="top">
+      <section class="wrap hero" aria-labelledby="name">
+        <div class="hero__top">
+          <h1 id="name">Vaishnavi<br />Kulkarni</h1>
+          <div>
+            <p class="hero__lede">Technical program and product manager. Former software engineer.</p>
+            <p class="hero__lede">M.S. Engineering Management at Purdue, graduating May 2027.</p>
+          </div>
+        </div>
+
+        <div class="gates">
+          <p class="gates__label" id="gates-label">Show the work through the lens of</p>
+          <div class="gates__row" role="group" aria-labelledby="gates-label">
+            {
+              (['product', 'program', 'project'] as const).map((l) => (
+                <button class="gate" type="button" data-lens={l} aria-pressed="false">
+                  <span>{l}</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" aria-hidden="true"><path d="M4 12h15M13 5l7 7-7 7" /></svg>
+                </button>
+              ))
+            }
+            <button class="gate gate--all" type="button" data-lens="all" aria-pressed="true">All work</button>
+          </div>
+          <div class="gates__now" aria-live="polite">
+            <p data-now="all" style="margin:0">Ten projects, newest first. Pick a role above to re-sort the board.</p>
+            {(['product', 'program', 'project'] as const).map((l) => <p data-now={l} style="margin:0">{lensIntro[l]}</p>)}
+          </div>
+        </div>
+      </section>
+
+      <section class="board on-dark" id="work" aria-labelledby="board-title">
+        <div class="wrap">
+          <div class="board__head">
+            <h2 class="board__title" id="board-title">Departures</h2>
+            <p class="board__hint">Select a row for the details.</p>
+          </div>
+
+          <div class="board__grid">
+            <div class="cols" aria-hidden="true">
+              <span>Year</span><span>Where</span><span>Project</span><span>Result</span><span></span>
+            </div>
+            <div data-board>
+              {
+                rows.map((r) => (
+                  <details class="row" data-row data-id={r.id}>
+                    <summary aria-label={`${r.title}, ${r.where}, ${r.year}. Result: ${r.result}. Show details.`}>
+                      <div class="row__main" aria-hidden="true">
+                        <div class="row__meta">
+                          <div class="tiles tiles--year">
+                            {pad(r.year, 7).map((c) => <span class={`tile${c === ' ' ? ' is-blank' : ''}`} data-ch={c}>{c.trim()}</span>)}
+                          </div>
+                          <div class="tiles tiles--where">
+                            {pad(r.where, 10).map((c) => <span class={`tile${c === ' ' ? ' is-blank' : ''}`} data-ch={c}>{c.trim()}</span>)}
+                          </div>
+                        </div>
+                        <div class="tiles tiles--title">
+                          {pad(r.title, 24).map((c) => <span class={`tile${c === ' ' ? ' is-blank' : ''}`} data-ch={c}>{c.trim()}</span>)}
+                        </div>
+                        <div class="tiles tiles--result">
+                          {pad(r.result, 24).map((c) => <span class={`tile${c === ' ' ? ' is-blank' : ''}`} data-ch={c}>{c.trim()}</span>)}
+                        </div>
+                        <svg class="row__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"><path d="M9 4l8 8-8 8" /></svg>
+                      </div>
+                    </summary>
+                    <div class="pass">
+                      <div class="pass__stub">
+                        <span><span class="pass__k">Year</span><span class="pass__v">{r.year}</span></span>
+                        <span><span class="pass__k">Where</span><span class="pass__v">{r.employer}</span></span>
+                      </div>
+                      <div class="pass__body">
+                        <p class="pass__what">{r.what}</p>
+                        <ul class="pass__list">{r.did.map((d) => <li>{d}</li>)}</ul>
+                        <p class="pass__stack">{r.stack.join(' / ')}</p>
+                        <p class="pass__lens">
+                          <span data-note="product">{r.notes.product}</span>
+                          <span data-note="program">{r.notes.program}</span>
+                          <span data-note="project">{r.notes.project}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </details>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section about" id="about" aria-labelledby="about-h">
+        <div class="wrap about__grid">
+          <div class="about__photo">
+            <Image src={photo} alt="Vaishnavi Kulkarni smiling, in a dark blazer" widths={[320, 480, 640]} sizes="(max-width: 52rem) 16rem, 20rem" format="webp" quality={82} />
+          </div>
+          <div>
+            <h2 id="about-h">From the code to the plan</h2>
+            <p>
+              I started as a software engineer. For three years I built and fixed the data pipelines behind a wealth-management platform, then led client onboarding and quality assurance on it.
+            </p>
+            <p>
+              What I enjoyed most was being in the discussions about what to build and why, so I went to Purdue to study engineering management. Now I run programs and products, and I can still read the pipeline underneath.
+            </p>
+            <ul class="facts">
+              <li><b>Now</b><span>M.S. Engineering Management, Purdue University. Graduating May 2027.</span></li>
+              <li><b>Summer 2026</b><span>AI product and program intern at SFE Group in Portland, Oregon.</span></li>
+              <li><b>Before</b><span>Software engineer, then lead engineer, at Bounteous in Bangalore (2022 to 2025).</span></li>
+              <li><b>Degree</b><span>B.E. Computer Science, Dayananda Sagar Academy of Technology and Management, 2022. Best Paper Award for an AI-based dietician.</span></li>
+              <li><b>Based in</b><span>West Lafayette, Indiana.</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section toolkit wrap" id="toolkit" aria-labelledby="kit-h">
+        <h2 id="kit-h">Toolkit</h2>
+        <dl>
+          {
+            toolkit.map((k) => (
+              <div class="kit" data-kit={k.lens}>
+                <dt>{k.lens}</dt>
+                <dd>{k.items.map((i) => <span>{i}</span>)}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </section>
+
+      <section class="section voice on-dark" aria-label="Recommendation">
+        <div class="wrap">
+          <blockquote>
+            <p>&ldquo;{quoteA}&rdquo;</p>
+            <p>&ldquo;{quoteB}&rdquo;</p>
+            <cite><b>Jayanthi Reddivari</b><br />Mentor, from a LinkedIn recommendation</cite>
+          </blockquote>
+        </div>
+      </section>
+
+      <section class="section contact wrap" id="contact" aria-labelledby="contact-h">
+        <h2 id="contact-h">Graduating May 2027</h2>
+        <p>Looking for technical program, product and project management roles. The fastest way to reach me is LinkedIn.</p>
+        <a class="sign sign--big" href={LINKEDIN} rel="noopener">
+          Message me on LinkedIn
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" aria-hidden="true"><path d="M4 12h15M13 5l7 7-7 7" /></svg>
+        </a>
+      </section>
+    </main>
+
+    <footer class="wrap foot">Vaishnavi Kulkarni. Figures come from my resume and work history; client names appear only where they are on my resume.</footer>
+
+    <script id="lens-data" type="application/json" set:html={JSON.stringify(lensOrder)} />
+    <script>
+      const CHARS = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-+%&,./';
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const root = document.documentElement;
+      const board = document.querySelector<HTMLElement>('[data-board]')!;
+      const rows = [...board.querySelectorAll<HTMLElement>('[data-row]')];
+      const byId = Object.fromEntries(rows.map((r) => [r.dataset.id!, r]));
+      const defaultOrder = rows.map((r) => r.dataset.id!);
+      const lensMap: Record<string, string[]> = JSON.parse(document.getElementById('lens-data')!.textContent!);
+      const gates = [...document.querySelectorAll<HTMLButtonElement>('.gate')];
+      const rand = (n: number) => Math.floor(Math.random() * n);
+
+      function flipTile(t: HTMLElement, delay: number) {
+        const target = t.dataset.ch!;
+        if (target === ' ') return;
+        let steps = 3 + rand(5);
+        const step = () => {
+          const c = steps-- > 0 ? CHARS[1 + rand(CHARS.length - 1)] : target;
+          t.textContent = c;
+          t.classList.remove('flap');
+          void t.offsetWidth;
+          t.classList.add('flap');
+          if (c !== target) setTimeout(step, 45);
+        };
+        setTimeout(step, delay);
+      }
+
+      function flipBoard() {
+        if (reduce) return;
+        board.querySelectorAll<HTMLElement>('[data-row]').forEach((row, i) => {
+          row.querySelectorAll<HTMLElement>('.tile').forEach((t, j) => flipTile(t, i * 40 + (j % 24) * 9));
+        });
+      }
+
+      function applyLens(lens: string, animate = true) {
+        root.dataset.lens = lens;
+        const inLens = lens === 'all' ? [] : lensMap[lens];
+        const ids = lens === 'all' ? defaultOrder : [...inLens, ...defaultOrder.filter((i) => !inLens.includes(i))];
+        ids.forEach((id) => board.appendChild(byId[id]));
+        rows.forEach((r) => r.classList.toggle('is-off', lens !== 'all' && !inLens.includes(r.dataset.id!)));
+        gates.forEach((g) => g.setAttribute('aria-pressed', String(g.dataset.lens === lens)));
+        try {
+          const u = new URL(location.href);
+          lens === 'all' ? u.searchParams.delete('lens') : u.searchParams.set('lens', lens);
+          history.replaceState(null, '', u);
+        } catch {}
+        if (animate) flipBoard();
+      }
+
+      gates.forEach((g) =>
+        g.addEventListener('click', () => {
+          const cur = root.dataset.lens;
+          applyLens(g.dataset.lens === cur && cur !== 'all' ? 'all' : g.dataset.lens!);
+        })
+      );
+
+      applyLens(root.dataset.lens || 'all', false);
+      (document.fonts?.ready ?? Promise.resolve()).then(flipBoard);
+    </script>
+  </body>
+</html>

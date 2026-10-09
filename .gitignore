@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.astro/
+.impeccable/review/
+.impeccable/build/
+.env
+preview.log
+.playwright-mcp/
+*.png.tmp
